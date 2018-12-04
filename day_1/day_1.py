@@ -7,6 +7,13 @@ def readin(file):
         changes = f.read().splitlines()
         return changes
 
+"""
+def solver(counter, list_of_changes):
+    list_of_changes.insert(0, counter)
+    lst = list(map(int, list_of_changes))
+    print(sum(lst))
+"""
+
 def solver(counter, list_of_changes):
     frequencies = []
     for change in list_of_changes:
@@ -19,6 +26,7 @@ def solver(counter, list_of_changes):
         else:
             break
     return frequencies
+
 
 
 def calibrator(start_list, input):
