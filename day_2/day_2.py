@@ -2,11 +2,11 @@ from collections import Counter
 from itertools import combinations
 import difflib
 
+
 def readin(file):
     with open(file) as f:
         changes = f.read().splitlines()
         return changes
-
 
 
 def checksum(box_ids):
@@ -27,30 +27,25 @@ def checksum(box_ids):
     return(two * three)
 
 
-
 def finder(input):
+    final = []
     d = difflib.Differ()
     combs = combinations(input, 2)
     for row in combs:
-        diff = d.compare(row[0], row[1])
-        diff_str = ''.join(diff)
-        plus_count = diff_str.count('+')
-        minus_count = diff_str.count('-')
-        total = plus_count + minus_count
-        if total < 3:
-            print(row)
-            print(diff_str)
-            clean = diff_str.replace(' ', '')
-            print(clean)
-            for char in clean:
-                if
-
-
+        diff_list = []
+        for letter in range(len(row[0])):
+            diff = d.compare(row[0][letter], row[1][letter])
+            diff_str = ''.join(diff)
+            if '-' not in diff_str:
+                diff_list.append(diff_str)
+        if diff_list:
+            final.append(''.join(diff_list).replace(' ', ''))
+    return max(final, key=len)
 
 
 def main():
-    #input = readin('inputs/input.txt')
-    input = ['abcde', 'fghij', 'klmno', 'pqrst', 'fguij', 'axcye', 'wvxyz']
+    input = readin('inputs/input.txt')
+    #input = ['abcde', 'fghij', 'klmno', 'pqrst', 'fguij', 'axcye', 'wvxyz']
     print(checksum(input))
     print(finder(input))
 
