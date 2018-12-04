@@ -1,4 +1,6 @@
 from collections import Counter
+from itertools import combinations
+import difflib
 
 def readin(file):
     with open(file) as f:
@@ -26,13 +28,31 @@ def checksum(box_ids):
 
 
 
+def finder(input):
+    d = difflib.Differ()
+    combs = combinations(input, 2)
+    for row in combs:
+        diff = d.compare(row[0], row[1])
+        diff_str = ''.join(diff)
+        plus_count = diff_str.count('+')
+        minus_count = diff_str.count('-')
+        total = plus_count + minus_count
+        if total < 3:
+            print(row)
+            print(diff_str)
+            clean = diff_str.replace(' ', '')
+            print(clean)
+            for char in clean:
+                if
+
 
 
 
 def main():
-    input = readin('inputs/input.txt')
-    #input = ['abcdef', 'bababc', 'abbcde', 'abcccd', 'aabcdd', 'abcdee', 'ababab']
+    #input = readin('inputs/input.txt')
+    input = ['abcde', 'fghij', 'klmno', 'pqrst', 'fguij', 'axcye', 'wvxyz']
     print(checksum(input))
+    print(finder(input))
 
 
 
