@@ -8,20 +8,21 @@ def readin(file):
 
 
 def checksum(box_ids):
-    two_list = 0
-    three_list = 0
+    two = 0
+    three = 0
     for id in box_ids:
         count = Counter(id)
-        for letter in count:
-            if count[letter] == 2:
-                two_list += 1
-                print(id, 2)
-            elif count[letter] == 3:
-                print(id, 3)
-                three_list += 1
-            else:
-                pass
-    print(two_list, three_list)
+        l = [x for x in count.values()]
+        if 2 in l and 3 in l:
+            two += 1
+            three += 1
+        elif 2 in l:
+            two += 1
+        elif 3 in l:
+            three += 1
+        else:
+            pass
+    return(two * three)
 
 
 
@@ -29,8 +30,8 @@ def checksum(box_ids):
 
 
 def main():
-    #input = readin('inputs/input.txt')
-    input = ['bababc', 'abcdef', 'abbcde', 'abcccd', 'aabcdd', 'abcdee', 'ababab']
+    input = readin('inputs/input.txt')
+    #input = ['abcdef', 'bababc', 'abbcde', 'abcccd', 'aabcdd', 'abcdee', 'ababab']
     print(checksum(input))
 
 
