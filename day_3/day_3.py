@@ -7,7 +7,12 @@ def readin(file):
         return changes
 
 
-
+def solver(claims):
+    for claim in claims:
+        parse = claim.split(" ")
+        corner_coord = parse[2].strip(":").split(",")
+        size = parse[3].split("x")
+        print(corner_coord, size)
 
 
 
@@ -16,7 +21,8 @@ def readin(file):
 
 def main():
     input = readin('inputs/input.txt')
-    print(input)
+    solver(input)
+
 
 
 if __name__ == "__main__":
