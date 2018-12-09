@@ -9,8 +9,11 @@ def readin(file):
 
 
 
-def takeSecond(elem):
+def take_second(elem):
     return elem[1]
+
+def take_third(elem):
+    return elem[2]
 
 def date_time_getter(line):
     time_string = line.split('] ')[0].strip('[')
@@ -26,7 +29,9 @@ def guard_id_number(line):
 def solver(input):
     input.sort()
     guards = defaultdict(Counter)
-    data = []
+    part_one_data = []
+    part_two_data = []
+    final_data = []
     for line in input:
         if 'Guard' in line:
             guard_id, start_shift = guard_id_number(line), date_time_getter(line)
@@ -39,15 +44,16 @@ def solver(input):
             days_data = [start_sleep.date(), mins_asleep]
             guards[guard_id].update(Counter(mins_asleep))
     for key, value in guards.items():
-        data.append([key, sum(value.values()), guards[key].most_common()[0][0]])
-    data.sort(key=takeSecond, reverse=True)
-    return (data[0][0] * data[0][2])
-
-
-
-
-
-
+        part_one_data.append([key, sum(value.values()), guards[key].most_common()[0][0]])
+        part_two_data.append([key] + list(guards[key].most_common()[0]))
+    part_one = sorted(part_one_data, key=take_second, reverse=True)
+    part_two = sorted(part_one_data, key=take_third, reverse=True)
+    print(part_one)
+    print("-----------")
+    print(part_two)
+    final_data.append(part_one[0][0] * part_one[0][2])
+    final_data.append(part_two[0][0] * part_two[0][2])
+    return final_data
 
 
 
@@ -74,7 +80,8 @@ def main():
 [1518-11-05 00:55] wakes up.splitlines()
 """
     input = readin('inputs/input.txt')
-    print(solver(input))
+    ans = solver(input)
+    print("Part 1 answer: {}. Part 2 answer: {}".format(ans[0], ans[1]))
 
 
 
