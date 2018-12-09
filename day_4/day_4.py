@@ -1,4 +1,5 @@
 from datetime import datetime
+from collections import defaultdict, Counter
 
 
 def readin(file):
@@ -8,7 +9,8 @@ def readin(file):
 
 
 
-
+def takeSecond(elem):
+    return elem[1]
 
 def date_time_getter(line):
     time_string = line.split('] ')[0].strip('[')
@@ -22,7 +24,9 @@ def guard_id_number(line):
 
 
 def solver(input):
-    guards = []
+    input.sort()
+    guards = defaultdict(Counter)
+    data = []
     for line in input:
         if 'Guard' in line:
             guard_id, start_shift = guard_id_number(line), date_time_getter(line)
@@ -31,9 +35,14 @@ def solver(input):
         elif 'wakes' in line:
             ends_sleep = date_time_getter(line)
             sleep_time = ends_sleep.minute - start_sleep.minute
-            print(guard_id, sleep_time, start_sleep.day)
             mins_asleep = [min for min in range(start_sleep.minute, ends_sleep.minute)]
-            print(guard_id, sleep_time, start_sleep.day, mins_asleep)
+            days_data = [start_sleep.date(), mins_asleep]
+            guards[guard_id].update(Counter(mins_asleep))
+    for key, value in guards.items():
+        data.append([key, sum(value.values()), guards[key].most_common()[0][0]])
+    data.sort(key=takeSecond, reverse=True)
+    return (data[0][0] * data[0][2])
+
 
 
 
@@ -45,7 +54,8 @@ def solver(input):
 
 
 def main():
-    input = """[1518-11-01 00:00] Guard #10 begins shift
+    """
+    input = 1518-11-01 00:00] Guard #10 begins shift
 [1518-11-01 00:05] falls asleep
 [1518-11-01 00:25] wakes up
 [1518-11-01 00:30] falls asleep
@@ -61,9 +71,10 @@ def main():
 [1518-11-04 00:46] wakes up
 [1518-11-05 00:03] Guard #99 begins shift
 [1518-11-05 00:45] falls asleep
-[1518-11-05 00:55] wakes up""".splitlines()
-    #input = readin('inputs/input.txt')
-    solver(input)
+[1518-11-05 00:55] wakes up.splitlines()
+"""
+    input = readin('inputs/input.txt')
+    print(solver(input))
 
 
 
