@@ -3,14 +3,14 @@ from datetime import datetime
 
 def readin(file):
     with open(file) as f:
-        changes = f.read().splitlines()
-        return changes
+        input = f.read().splitlines()
+        return input
 
 
 
 
 
-def date_time(line):
+def date_time_getter(line):
     time_string = line.split('] ')[0].strip('[')
     date_time = datetime.strptime(time_string, '%Y-%m-%d %H:%M')
     return date_time
@@ -21,10 +21,25 @@ def guard_id_number(line):
         return guard_id
 
 
-
 def solver(input):
+    guards = []
     for line in input:
-        print(date_time(line), guard_id_number(line))
+        if 'Guard' in line:
+            guard_id, start_shift = guard_id_number(line), date_time_getter(line)
+        elif 'falls' in line:
+            start_sleep = date_time_getter(line)
+        elif 'wakes' in line:
+            ends_sleep = date_time_getter(line)
+            sleep_time = ends_sleep.minute - start_sleep.minute
+            print(guard_id, sleep_time, start_sleep.day)
+            mins_asleep = [min for min in range(start_sleep.minute, ends_sleep.minute)]
+            print(guard_id, sleep_time, start_sleep.day, mins_asleep)
+
+
+
+
+
+
 
 
 
