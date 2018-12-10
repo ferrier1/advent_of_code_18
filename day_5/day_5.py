@@ -1,4 +1,4 @@
-
+import string
 
 def readin(file):
     with open(file) as f:
@@ -20,6 +20,7 @@ def is_match(letter_1, letter_2):
             return True
         else:
             return False
+
 """
 def solver(input):
     for x in range(len(input)):
@@ -45,12 +46,24 @@ def solver(input):
             stack.append(c)
     return len(stack)
 
+def part_2(input):
+    removal_lengths = []
+    for letter in string.ascii_lowercase:
+        for c in input:
+            if c == letter or c == letter.upper():
+                input.remove(c)
+        length = [solver(input), letter]
+        removal_lengths.append(length)
+    lowest = sorted(removal_lengths)
+    print(lowest)
+
+
 
 def main():
     input = readin('inputs/input.txt')
-    print(len(input))
     #input = list('dabAcCaCBAcCcaDA')
     print(solver(input))
+    print(part_2(input))
 
 
 
