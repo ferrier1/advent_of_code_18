@@ -21,49 +21,40 @@ def is_match(letter_1, letter_2):
         else:
             return False
 
-"""
-def solver(input):
-    for x in range(len(input)):
-        idx = 0
-        for letter in input:
-            try:
-                if is_match(input[idx], input[idx+1]):
-                    input.pop(idx)
-                    input.pop(idx)
-            except:
-                pass
-            idx += 1
-    return len(input)
-"""
 
 def solver(input):
     stack = []
 
-    for c in input:
-        if len(stack) > 0 and is_match(stack[-1], c):
+    for char in input:
+        if len(stack) > 0 and is_match(stack[-1], char):
             stack.pop()
         else:
-            stack.append(c)
+            stack.append(char)
     return len(stack)
 
-def part_2(input):
-    removal_lengths = []
-    for letter in string.ascii_lowercase:
-        for c in input:
-            if c == letter or c == letter.upper():
-                input.remove(c)
-        length = [solver(input), letter]
-        removal_lengths.append(length)
-    lowest = sorted(removal_lengths)
-    print(lowest)
+def solver_part_2(input, letter):
+    stack = []
+
+    for char in input:
+        if char == letter:
+            pass
+        elif char == letter.upper():
+            pass
+        elif len(stack) > 0 and is_match(stack[-1], char):
+            stack.pop()
+        else:
+            stack.append(char)
+    return [len(stack), letter]
 
 
 
 def main():
+    part_2 = []
     input = readin('inputs/input.txt')
     #input = list('dabAcCaCBAcCcaDA')
-    print(solver(input))
-    print(part_2(input))
+    for letter in string.ascii_lowercase:
+        part_2.append([solver_part_2(input, letter)])
+    print(sorted(part_2))
 
 
 
