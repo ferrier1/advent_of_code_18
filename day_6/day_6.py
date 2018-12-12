@@ -11,10 +11,10 @@ def taxicab_dist(a, b):
 
 
 def distances_between_points(input):
+    distances = {}
     for combination in combinations(input, 2):
-        
-
-
+        distances[combination] = taxicab_dist(combination[0].replace(" ", "").split(','), combination[1].replace(" ", "").split(','))
+    return distances
 
 
 def main():
@@ -25,7 +25,8 @@ def main():
 3, 4
 5, 5
 8, 9""".splitlines()
-    distances_between_points(input)
+    print(distances_between_points(input))
+
 
 
 
