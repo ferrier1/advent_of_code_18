@@ -1,4 +1,3 @@
-from itertools import combinations
 
 def readin(file):
     with open(file) as f:
@@ -12,28 +11,46 @@ def taxicab_dist(a, b):
     return abs(int(a[0]) - int(b[0])) + abs(int(a[1]) - int(b[1]))
 
 
-def distances_between_points(input):
-    distances = {}
+def distances_between_points(input, coord):
+    distances = []
 
-    for combination in combinations(input, 2):
-        distances[str(combination)] = taxicab_dist(combination[0], combination[1])
+    for point in input:
+        distance = taxicab_dist(point, coord)
+        distances.append((distance, point))
     return distances
 
 
 def graph_sizer(input):
-    max_x = 0
-    max_y = 0
-    for x in input:
-        if x[0] == 0 or x[1] == 0:
-            return True
-        elif x[0] > max_x or x[1] > max_y:
-            return True
+    x_coords = []
+    y_coords = []
+    extreme = {}
+    for coord in input:
+        x_coords.append(coord[0])
+        y_coords.append(coord[1])
+    extreme['x'] = int(sorted(x_coords)[0]), int(sorted(x_coords)[-1])
+    extreme['y'] = int(sorted(y_coords)[0]), int(sorted(y_coords)[-1])
+    return extreme
 
 
+def find_infinite(input):
+    extreme = graph_sizer(input)
+    infinite_points = []
+    for point in input:
+        if int(point[0]) in extreme['x'] or int(point[1]) in extreme['y']:
+            infinite_points.append(point)
+    return infinite_points
 
 
+def find_finite(input):
+    return [point for point in input if point not in find_infinite(input)]
 
 
+def solver(input):
+    extreme = graph_sizer(input)
+    for x in range(extreme['x'][0], extreme['x'][1] + 1, 1):
+        for y in range(extreme['y'][0], extreme['y'][1] + 1, 1):
+            point_in_loop = [x, y]
+            print(distances_between_points(input, point_in_loop))
 
 
 
@@ -48,8 +65,7 @@ def main():
 8, 9""".splitlines()
     for item in tmp_input:
         input.append(item.replace(" ", "").split(','))
-    #print(distances_between_points(input))
-    graph_sizer(input)
+    solver(input)
 
 
 
