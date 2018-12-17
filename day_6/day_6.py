@@ -1,9 +1,12 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 
 def readin(file):
+    input = []
     with open(file) as f:
-        input = f.read().splitlines()
+        tmp_input = f.read().splitlines()
+        for item in tmp_input:
+            input.append(item.replace(" ", "").split(','))
         return input
 
 
@@ -50,29 +53,22 @@ def find_finite(input):
 def solver(input):
     single_distance = defaultdict(int)
     extreme = graph_sizer(input)
+    finite_points = find_finite(input)
     for x in range(0, extreme['x'][1] + 1, 1):
         for y in range(0, extreme['y'][1] + 1, 1):
             point_in_loop = [x, y]
             distances = sorted(distances_between_points(input, point_in_loop))
-            if distances[0][0] != distances[1][0]:
-                print(distances)
-
+            if distances[0][0] != distances[1][0] and distances[0][1] in finite_points:
+                single_distance[str(distances[0][1])] += 1
+    return single_distance
 
 
 
 
 def main():
-    #input = readin('inputs/input.txt')
-    input = []
-    tmp_input = """1, 1
-1, 6
-8, 3
-3, 4
-5, 5
-8, 9""".splitlines()
-    for item in tmp_input:
-        input.append(item.replace(" ", "").split(','))
-    solver(input)
+    input = readin('inputs/input.txt')
+    print(solver(input))
+
 
 
 
