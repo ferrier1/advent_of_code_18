@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 
 def readin(file):
     with open(file) as f:
@@ -46,11 +48,16 @@ def find_finite(input):
 
 
 def solver(input):
+    single_distance = defaultdict(int)
     extreme = graph_sizer(input)
-    for x in range(extreme['x'][0], extreme['x'][1] + 1, 1):
-        for y in range(extreme['y'][0], extreme['y'][1] + 1, 1):
+    for x in range(0, extreme['x'][1] + 1, 1):
+        for y in range(0, extreme['y'][1] + 1, 1):
             point_in_loop = [x, y]
-            print(distances_between_points(input, point_in_loop))
+            distances = sorted(distances_between_points(input, point_in_loop))
+            if distances[0][0] != distances[1][0]:
+                print(distances)
+
+
 
 
 
