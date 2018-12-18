@@ -15,7 +15,6 @@ def readin(file):
 def taxicab_dist(a, b):
     return abs(int(a[0]) - int(b[0])) + abs(int(a[1]) - int(b[1]))
 
-
 def distances_between_points(input, coord):
     distances = []
 
@@ -30,10 +29,12 @@ def graph_sizer(input):
     y_coords = []
     extreme = {}
     for coord in input:
-        x_coords.append(coord[0])
-        y_coords.append(coord[1])
-    extreme['x'] = int(sorted(x_coords)[0]), int(sorted(x_coords)[-1])
-    extreme['y'] = int(sorted(y_coords)[0]), int(sorted(y_coords)[-1])
+        x_coords.append(int(coord[0]))
+        y_coords.append(int(coord[1]))
+    x_coords.sort()
+    y_coords.sort()
+    extreme['x'] = x_coords[0], x_coords[-1]
+    extreme['y'] = y_coords[0], y_coords[-1]
     return extreme
 
 
@@ -53,6 +54,7 @@ def find_finite(input):
 def solver(input):
     single_distance = defaultdict(int)
     extreme = graph_sizer(input)
+    print(extreme)
     finite_points = find_finite(input)
     for x in range(0, extreme['x'][1] + 1, 1):
         for y in range(0, extreme['y'][1] + 1, 1):
