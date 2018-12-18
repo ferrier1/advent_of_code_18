@@ -37,7 +37,7 @@ def graph_sizer(input):
     extreme['y'] = y_coords[0], y_coords[-1]
     return extreme
 
-
+"""
 def find_infinite(input):
     extreme = graph_sizer(input)
     infinite_points = []
@@ -45,24 +45,37 @@ def find_infinite(input):
         if int(point[0]) in extreme['x'] or int(point[1]) in extreme['y']:
             infinite_points.append(point)
     return infinite_points
+"""
 
 
+def find_infinite(input, point):
+    extreme = graph_sizer(input)
+    if int(point[0]) in extreme['x'] or int(point[1]) in extreme['y']:
+        return True
+    else:
+        return False
+
+"""
 def find_finite(input):
     return [point for point in input if point not in find_infinite(input)]
-
+"""
 
 def solver(input):
     single_distance = defaultdict(int)
+    infinite_points = []
     extreme = graph_sizer(input)
-    print(extreme)
-    finite_points = find_finite(input)
-    for x in range(0, extreme['x'][1] + 1, 1):
-        for y in range(0, extreme['y'][1] + 1, 1):
+    #finite_points = find_finite(input)
+    for x in range(extreme['x'][1] + 1):
+        for y in range(extreme['y'][1] + 1):
             point_in_loop = [x, y]
             distances = sorted(distances_between_points(input, point_in_loop))
-            if distances[0][0] != distances[1][0] and distances[0][1] in finite_points:
+            if distances[0][0] != distances[1][0]:
                 single_distance[str(distances[0][1])] += 1
-    return single_distance
+                if find_infinite(input, point_in_loop):
+                    infinite_points.append(str(distances[0][1]))
+    
+    ans = [value for key, value in single_distance.items() if key not in infinite_points]
+    return max(list(ans))
 
 
 
@@ -70,6 +83,9 @@ def solver(input):
 def main():
     input = readin('inputs/input.txt')
     print(solver(input))
+    #print(graph_sizer(input))
+    #print(find_infinite(input, [12, 1]))
+
 
 
 
