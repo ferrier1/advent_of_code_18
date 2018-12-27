@@ -77,14 +77,24 @@ def solver(input):
     ans = [value for key, value in single_distance.items() if key not in infinite_points]
     return max(list(ans))
 
+def solver_part_2(input):
+    safe_zone_size = 0
+    extreme = graph_sizer(input)
+    for x in range(extreme['x'][1] + 1):
+        for y in range(extreme['y'][1] + 1):
+            point_in_loop = [x, y]
+            distances = sorted(distances_between_points(input, point_in_loop))
+            if sum([x[0] for x in distances]) <= 10000:
+                safe_zone_size += 1
+    return safe_zone_size
+
 
 
 
 def main():
     input = readin('inputs/input.txt')
-    print(solver(input))
-    #print(graph_sizer(input))
-    #print(find_infinite(input, [12, 1]))
+    #print(solver(input))
+    print(solver_part_2(input))
 
 
 
