@@ -78,22 +78,26 @@ def solver(input):
     return max(list(ans))
 
 def solver_part_2(input):
-    safe_zone_size = 0
     extreme = graph_sizer(input)
+    safe_zone_area = 0
+    #finite_points = find_finite(input)
     for x in range(extreme['x'][1] + 1):
         for y in range(extreme['y'][1] + 1):
             point_in_loop = [x, y]
-            distances = sorted(distances_between_points(input, point_in_loop))
-            if sum([x[0] for x in distances]) <= 10000:
-                safe_zone_size += 1
-    return safe_zone_size
+            distances = distances_between_points(input, point_in_loop)
+            if sum([x[0] for x in distances]) < 10000:
+                safe_zone_area += 1
+    return  safe_zone_area
+    
+            
+
 
 
 
 
 def main():
     input = readin('inputs/input.txt')
-    #print(solver(input))
+    print(solver(input))
     print(solver_part_2(input))
 
 
