@@ -1,4 +1,4 @@
-
+from collections import defaultdict
 
 def readin(file):
     with open(file) as f:
@@ -25,22 +25,17 @@ def start(input):
 
 def solver(input):
     data = parser(input)
-    potential_next_steps = []
+    potential_next_steps = defaultdict(list)
     completed_steps = []
     completed_steps.append(start(input))
     idx = 0
     for constraint in data[0]:
-        print(constraint, data[1][idx])
         if constraint in completed_steps:
-             potential_next_steps.append(data[1][idx])
+             potential_next_steps[constraint].append(data[1][idx])
         idx += 1
+        
     print(potential_next_steps)
-    
 
-
-
-
-    
 
 
 
